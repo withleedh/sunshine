@@ -1,6 +1,7 @@
 package com.example.sweetlife.sunshine;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -104,7 +105,8 @@ public class ForecastFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 String itemString = mForecastAdapter.getItem(position);
-                Toast.makeText(getActivity(), itemString, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT,itemString);
+                startActivity(intent);
             }
         });
 
