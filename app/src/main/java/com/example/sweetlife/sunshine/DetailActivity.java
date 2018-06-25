@@ -23,7 +23,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.detail_container, new PlaceholderFragment())
                     .commit();
         }
 
@@ -52,6 +52,8 @@ public class DetailActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -72,9 +74,9 @@ public class DetailActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             Intent intent = getActivity().getIntent();
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-
+            detailTextView = (TextView) rootView.findViewById(R.id.detailText);
             if (intent!=null && intent.hasExtra(Intent.EXTRA_TEXT)){
-                detailTextView = (TextView) rootView.findViewById(R.id.detailText);
+
                 detailTextView.setText(intent.getStringExtra(Intent.EXTRA_TEXT));
             }
 

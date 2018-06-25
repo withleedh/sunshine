@@ -1,5 +1,6 @@
 package com.example.sweetlife.sunshine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(getBaseContext(), SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 
