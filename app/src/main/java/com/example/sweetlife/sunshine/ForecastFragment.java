@@ -2,6 +2,7 @@ package com.example.sweetlife.sunshine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -105,12 +107,17 @@ public class ForecastFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 String itemString = mForecastAdapter.getItem(position);
-                Intent intent = new Intent(getContext(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT,itemString);
+                Intent intent = new Intent(getContext(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT, itemString);
                 startActivity(intent);
             }
         });
 
-        String postal = "94043";
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        String postal = "";
+
+        postal = sp.getString(getString(R.string.pref_location_default), getString(R.string.pref_location_default));
+
         FetchWeatherTask task = new FetchWeatherTask();
         task.execute(postal);
 
@@ -239,7 +246,7 @@ public class ForecastFragment extends Fragment {
         protected void onPostExecute(String[] strings) {
             super.onPostExecute(strings);
 
-            if (strings!=null){
+            if (strings != null) {
                 mForecastAdapter.clear();
                 mForecastAdapter.addAll(strings);
             }
