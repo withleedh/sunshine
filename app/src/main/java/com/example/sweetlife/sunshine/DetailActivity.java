@@ -2,18 +2,19 @@ package com.example.sweetlife.sunshine;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.ShareActionProvider;
+import androidx.core.view.MenuItemCompat;
+import androidx.fragment.app.Fragment;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -23,7 +24,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.detail_container, new PlaceholderFragment())
+                    .add(R.id.detail_container, new DetailFragment())
                     .commit();
         }
 
@@ -39,7 +40,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.detail, menu);
+//        getMenuInflater().inflate(R.menu.detail, menu);
         return true;
     }
 
@@ -56,6 +57,10 @@ public class DetailActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
+        if (id == R.id.action_share) {
+
+
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -63,10 +68,16 @@ public class DetailActivity extends AppCompatActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class DetailFragment extends Fragment {
 
         TextView detailTextView;
-        public PlaceholderFragment() {
+        private static final String TAG = DetailFragment.class.getSimpleName();
+
+        private static final String FORECAST_SHARE_HASHTAG = " #SunshineApp";
+        private String mForecastStr;
+
+        public DetailFragment() {
+            setHasOptionsMenu(true);
         }
 
         @Override
@@ -75,12 +86,36 @@ public class DetailActivity extends AppCompatActivity {
             Intent intent = getActivity().getIntent();
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
             detailTextView = (TextView) rootView.findViewById(R.id.detailText);
-            if (intent!=null && intent.hasExtra(Intent.EXTRA_TEXT)){
-
+            if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
+                mForecastStr = intent.getStringExtra(Intent.EXTRA_TEXT);
                 detailTextView.setText(intent.getStringExtra(Intent.EXTRA_TEXT));
             }
 
             return rootView;
+        }
+
+
+        @Override
+        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+            inflater.inflate(R.menu.detail, menu);
+            MenuItem menuItem = menu.findItem(R.id.action_share);
+
+            ShareActionProvider provider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+
+            if (provider != null) {
+                provider.setShareIntent(createShareForecastIntent());
+            } else {
+                Log.d(TAG, "Share action is not exists.");
+            }
+        }
+
+        private Intent createShareForecastIntent() {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT,
+                    mForecastStr + FORECAST_SHARE_HASHTAG);
+            return shareIntent;
         }
     }
 }

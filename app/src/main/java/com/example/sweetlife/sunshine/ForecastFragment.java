@@ -223,7 +223,7 @@ public class ForecastFragment extends Fragment {
 
                 //{"city":{"id":5375480,"name":"Mountain View","coord":{"lon":-122.0833,"lat":37.3894},"country":"US","population":74066},"cod":"200","message":0.312993,"cnt":7,"list":[{"dt":1529870400,"temp":{"day":21.85,"min":10.75,"max":21.85,"night":10.75,"eve":18.45,"morn":21.85},"pressure":987.21,"humidity":57,"weather":[{"id":800,"main":"Clear","description":"sky is clear","icon":"01n"}],"speed":1.3,"deg":215,"clouds":0},{"dt":1529956800,"temp":{"day":24.47,"min":10.6,"max":24.81,"night":10.6,"eve":20.76,"morn":15.05},"pressure":990.69,"humidity":64,"weather":[{"id":800,"main":"Clear","description":"sky is clear","icon":"01d"}],"speed":1.46,"deg":204,"clouds":0},{"dt":1530043200,"temp":{"day":24.87,"min":8.71,"max":25.09,"night":8.71,"eve":20.05,"morn":12.12},"pressure":989.32,"humidity":59,"weather":[{"id":800,"main":"Clear","description":"sky is clear","icon":"01d"}],"speed":1.51,"deg":229,"clouds":0},{"dt":1530129600,"temp":{"day":17.57,"min":9.35,"max":20.44,"night":12.76,"eve":20.44,"morn":9.35},"pressure":1008.4,"humidity":0,"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10d"}],"speed":1.56,"deg":211,"clouds":1},{"dt":1530216000,"temp":{"day":16.59,"min":10.3,"max":20.53,"night":13.32,"eve":20.53,"morn":10.3},"pressure":1008.57,"humidity":0,"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10d"}],"speed":1.29,"deg":259,"clouds":4},{"dt":1530302400,"temp":{"day":18.03,"min":9.87,"max":19.67,"night":12.77,"eve":19.67,"morn":9.87},"pressure":1005.81,"humidity":0,"weather":[{"id":800,"main":"Clear","description":"sky is clear","icon":"01d"}],"speed":2.55,"deg":289,"clouds":0},{"dt":1530388800,"temp":{"day":18.67,"min":10.33,"max":21.47,"night":14.24,"eve":21.47,"morn":10.33},"pressure":1003.78,"humidity":0,"weather":[{"id":800,"main":"Clear","description":"sky is clear","icon":"01d"}],"speed":2.66,"deg":310,"clouds":0}]}
             } catch (IOException e) {
-                Log.e("PlaceholderFragment", "Error ", e);
+                Log.e("DetailFragment", "Error ", e);
                 // If the code didn't successfully get the weather data, there's no point in attempting
                 // to parse it.
                 forecastJsonStr = null;
@@ -235,7 +235,7 @@ public class ForecastFragment extends Fragment {
                     try {
                         reader.close();
                     } catch (final IOException e) {
-                        Log.e("PlaceholderFragment", "Error closing stream", e);
+                        Log.e("DetailFragment", "Error closing stream", e);
                     }
                 }
             }

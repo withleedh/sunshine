@@ -1,7 +1,10 @@
 package com.example.sweetlife.sunshine;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -57,8 +61,29 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
+        else if(id== R.id.action_map){
+            openLocationInMap();
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openLocationInMap() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String location = sp.getString(getString(R.string.pref_location_key),getString(R.string.pref_location_default));
+
+        Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
+                .appendQueryParameter("q",location)
+                .build();
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+
+        if (intent.resolveActivity(getPackageManager())!=null){
+            startActivity(intent);
+        }else{
+            Toast.makeText(getBaseContext(),"No Map app", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
